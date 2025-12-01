@@ -1,6 +1,7 @@
+from pydantic import BaseModel
 from typing import Optional
 
-class DestinationBase:
+class DestinationBase(BaseModel):
     place_name: str
     country: str
     priority: str
@@ -9,7 +10,7 @@ class DestinationBase:
 class DestinationCreate(DestinationBase):
     pass
 
-class DestinationUpdate:
+class DestinationUpdate(BaseModel):
     place_name: Optional[str] = None
     country: Optional[str] = None
     priority: Optional[str] = None
@@ -19,3 +20,6 @@ class DestinationUpdate:
 class Destination(DestinationBase):
     id: int
     visited: bool
+    
+    class Config:
+        from_attributes = True
