@@ -10,7 +10,7 @@ app = FastAPI(title="Travel Bucket List API")
 
 @app.post("/destinations/", response_model=Destination)
 def create_destination(destination: DestinationCreate, db: Session = Depends(get_db)):
-    db_destination = DestinationModel(**destination.dict())
+    db_destination = DestinationModel(**destination.model_dump())
     db.add(db_destination)
     db.commit()
     db.refresh(db_destination)
@@ -33,7 +33,7 @@ def update_destination(destination_id: int, destination_update: DestinationUpdat
     if not destination:
         raise HTTPException(status_code=404, detail="Destination not found")
     
-    for field, value in destination_update.dict(exclude_unset=True).items():
+    for field, value in destination_update.model_dump(exclude_unset=True).items():
         setattr(destination, field, value)
     
     db.commit()
