@@ -22,4 +22,4 @@ class Destination(DestinationBase):
     visited: bool
     
     class Config:
-        from_attributes = True
+        orm_mode = True
